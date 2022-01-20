@@ -76,7 +76,15 @@ void DepositMoney()
   cout<<"[입   금]"<<endl;
   cout<<"계좌 ID:"; cin>>Daccount;
   cout<<"입금액:"; cin>>deposit;
-  cout<<"---입금 완료---"<<endl;
+
+  for(int i=0; i<100; i++)
+  {
+    if(accArr[i].accID == Daccount)
+    {
+      accArr[i].balance += deposit;
+      cout<<"---입금 완료---"<<endl;
+    }
+  }
 }
 
 void WithdrawMoney()
@@ -86,10 +94,26 @@ void WithdrawMoney()
   cout<<"[출  금]"<<endl;
   cout<<"계좌 ID:"; cin>>Waccount;
   cout<<"출금액:"; cin>>withdraw;
-  cout<<"---출금 완료---"<<endl;
+
+  for(int i=0; i<100; i++)
+  {
+    if(accArr[i].accID == Waccount)
+    {
+      accArr[i].balance -= withdraw;
+      cout<<"---출금 완료---"<<endl;
+    }
+  }
 }
 
 void ShowAllAccount()
 {
-
+  for(int i=0; i<100; i++)
+  {
+    if(accArr[i].accID != 0)
+    {
+      cout<<"계좌 ID:"<<accArr[i].accID<<endl;
+      cout<<"이 름:"<<accArr[i].Name<<endl;
+      cout<<"잔 액:"<<accArr[i].balance<<endl<<endl;
+    }
+  }
 }
