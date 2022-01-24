@@ -8,13 +8,49 @@ void DepositMoney();
 void WithdrawMoney();
 void ShowAllAccount();
 
-typedef struct{
-  int accID;
-  int balance;
-  char Name[20];
-} Account;
+class Account
+{
+  private:
+    int accID;
+    int balance;
+    char * Name;
+  public:
+    Account(int _accID, int _balance, char * _Name): accID(_accID), balance(_balance)
+    {
+      Name = new char[strlen(_Name)+1];
+      strcpy(Name,_Name);
+    }
 
-Account accArr[100];
+    int GetID()
+    {
+      return accID;
+    }
+
+    void Deposit(int money)
+    {
+      balance+=money;
+    }
+
+    void Withdraw(int money)
+    {
+      balance-=money;
+    }
+
+    void ShowAllInfo()
+    {
+      cout<<"계좌ID:"<<accID<<endl;
+      cout<<"이 름:"<<Name<<endl;
+      cout<<"잔 액:"<<balance<<endl;
+    }
+
+    ~Account()
+    {
+      delete []Name;
+    }
+};
+
+
+Account * accArr[100];
 int accNum = 0;               //저장된 계좌 수
 
 int main()
@@ -62,11 +98,14 @@ void MakeAccount()
   cout<<"계좌 ID:"; cin>>id;
   cout<<"이 름:"; cin>>NAME;
   cout<<"입금액:"; cin>>money;
-  
+
+  accArr[accNum++] = new Account(id,money,NAME); 
+  /*
   accArr[accNum].accID = id;
   accArr[accNum].balance = money;
   strcpy(accArr[accNum].Name,NAME);
   accNum++;
+  */
 }
 
 void DepositMoney()
@@ -79,9 +118,9 @@ void DepositMoney()
 
   for(int i=0; i<100; i++)
   {
-    if(accArr[i].accID == Daccount)
+    if(accArr[i]->GetID() == Daccount)
     {
-      accArr[i].balance += deposit;
+      accArr[i]->Deposit(deposit);
       cout<<"---입금 완료---"<<endl;
     }
   }
@@ -97,9 +136,9 @@ void WithdrawMoney()
 
   for(int i=0; i<100; i++)
   {
-    if(accArr[i].accID == Waccount)
+    if(accArr[i]->GetID() == Waccount)
     {
-      accArr[i].balance -= withdraw;
+      accArr[i]->Withdraw(withdraw);
       cout<<"---출금 완료---"<<endl;
     }
   }
@@ -109,11 +148,10 @@ void ShowAllAccount()
 {
   for(int i=0; i<100; i++)
   {
-    if(accArr[i].accID != 0)
+    if(accArr[i]->GetID() != 0)
     {
-      cout<<"계좌 ID:"<<accArr[i].accID<<endl;
-      cout<<"이 름:"<<accArr[i].Name<<endl;
-      cout<<"잔 액:"<<accArr[i].balance<<endl<<endl;
+      accArr[i]->ShowAllInfo();
+      cout<<endl;
     }
   }
 }
