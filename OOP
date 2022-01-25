@@ -19,9 +19,15 @@ class Account
     {
       Name = new char[strlen(_Name)+1];
       strcpy(Name,_Name);
-    }
+    } //생성자
 
-    int GetID()
+    Account(const Account& copy):accID(copy.accID), balance(copy.balance)
+    {
+      Name = new char[strlen(copy.Name)+1];
+      strcpy(Name,copy.Name);
+    } //깊은 복사 생성자
+
+    int GetID() const
     {
       return accID;
     }
@@ -36,7 +42,7 @@ class Account
       balance-=money;
     }
 
-    void ShowAllInfo()
+    void ShowAllInfo() const
     {
       cout<<"계좌ID:"<<accID<<endl;
       cout<<"이 름:"<<Name<<endl;
@@ -49,7 +55,6 @@ class Account
     }
 };
 
-
 Account * accArr[100];
 int accNum = 0;               //저장된 계좌 수
 
@@ -61,6 +66,7 @@ int main()
     ShowMenu();
     cout<<"선택: ";
     cin>>choice;
+    cout<<endl;
     if(choice == 1)
       MakeAccount();
     else if(choice == 2)
@@ -116,12 +122,13 @@ void DepositMoney()
   cout<<"계좌 ID:"; cin>>Daccount;
   cout<<"입금액:"; cin>>deposit;
 
-  for(int i=0; i<100; i++)
+  for(int i=0; i<accNum; i++)
   {
     if(accArr[i]->GetID() == Daccount)
     {
       accArr[i]->Deposit(deposit);
       cout<<"---입금 완료---"<<endl;
+      return;
     }
   }
 }
@@ -134,24 +141,22 @@ void WithdrawMoney()
   cout<<"계좌 ID:"; cin>>Waccount;
   cout<<"출금액:"; cin>>withdraw;
 
-  for(int i=0; i<100; i++)
+  for(int i=0; i<accNum; i++)
   {
     if(accArr[i]->GetID() == Waccount)
     {
       accArr[i]->Withdraw(withdraw);
       cout<<"---출금 완료---"<<endl;
+      return;
     }
   }
 }
 
 void ShowAllAccount()
 {
-  for(int i=0; i<100; i++)
+  for(int i=0; i<=accNum; i++)
   {
-    if(accArr[i]->GetID() != 0)
-    {
       accArr[i]->ShowAllInfo();
       cout<<endl;
-    }
   }
 }
